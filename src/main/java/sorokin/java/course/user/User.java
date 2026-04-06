@@ -15,7 +15,7 @@ public class User {
     @Column(name = "user_login")
     private String login;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user")
     private List<Account> accountList;
 
     public User(String login, List<Account> accountList) {

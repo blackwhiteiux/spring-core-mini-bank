@@ -45,25 +45,24 @@ public class UserService {
         });
     }
 
-    public User findUserById(Integer id) {
+    public Optional<User> findUserById(Integer id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("user id must be > 0");
         }
 
         try (Session session = sessionFactory.openSession()){
-            var user = session.get(User.class, id);
-
-            if (user == null) {
-                throw new IllegalArgumentException("No such user with id=%s".formatted(id));
-            }
-            return user;
+            String hql = "SELECT u FROM User u LEFT JOIN FETCH u.accountList WHERE u.id = :id";
+            User user = session.createQuery(hql, User.class)
+                    .setParameter("id", id)
+                    .uniqueResult();
+            return Optional.ofNullable(user);
         }
     }
 
     public List<User> findAll() {
         try (Session session = sessionFactory.openSession()){
             return session
-                    .createQuery("SELECT u FROM User u", User.class)
+                    .createQuery("SELECT u FROM User u LEFT JOIN FETCH u.accountList", User.class)
                     .list();
         }
     }

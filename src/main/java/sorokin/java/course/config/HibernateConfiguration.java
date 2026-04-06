@@ -24,7 +24,8 @@ public class HibernateConfiguration {
                 .setProperty("hibernate.show_sql", "true")
                 .setProperty("hibernate.format_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
-                .setProperty("hibernate.hbm2ddl.auto", "update");
+                .setProperty("hibernate.hbm2ddl.auto", "update")
+                .setProperty("hibernate.current_session_context_class", "thread");
 
         return configuration.buildSessionFactory();
     }
